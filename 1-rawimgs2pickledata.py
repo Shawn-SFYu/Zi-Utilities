@@ -1,10 +1,13 @@
 """
-organize imgs from AUTHOR -> denoise, upsample, scale to 512, save to pickle files
+1. organize raw imgs from web scraper
+    Input Data -> denoise, super-resolution, tone detection, scaling (to 512) -> save to pickle files
+
+    Image processing pipeline has been visualized and examined in visualize_processing.py 
 """
 import os
 import logging
 import cv2
-from GenBaseImg import ChartoImg
+from gen_base_img import char2img
 import numpy as np
 import pickle
 
@@ -94,7 +97,7 @@ if __name__ == "__main__":
                 img_dict[i] = []
                 logging.debug(f"entry created \n")
             for path in clips:
-                img_input = ChartoImg(character)
+                img_input = char2img(character)
                 img_output = ImgPrep(os.path.join(DIR, character, path))
                 img_dict[i].append(DataPair(img_input, img_output))
         div_n, mod_n = divmod(i+1, 400)
