@@ -6,7 +6,7 @@ import argparse
 def main(args):
     all_files = [os.path.join(args.image_dir, fname) \
                  for fname in os.listdir(args.image_dir)]
-    all_files.sort(key=lambda x: os.path.getctime(x), reverse=True)
+    all_files.sort(key=lambda x: os.path.getmtime(x), reverse=False)
     
     images = []
 
@@ -19,11 +19,11 @@ def main(args):
 
         normalized_data = np.clip( 255.0 * (img_data - min)/(max - min), 0, 255)
 
-        normalized_img = Image.fromarray(np.unit8(normalized_data))
+        normalized_img = Image.fromarray(np.uint8(normalized_data))
 
         images.append(normalized_img)
     
-    images[0].save(args.output_path, save_all=True, append_images=images[1:], loop=0, duration=100)
+    images[0].save(args.output_path, save_all=True, append_images=images[1:], loop=0, duration=300)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Generate gif from image series")
